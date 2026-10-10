@@ -13,7 +13,8 @@ These are the tells of machine-written prose. Avoid them. This is a hard rule, n
 
 - **No "not X, but Y" / "it's not just X, it's Y" antithesis as decoration.** Only use a contrast when the negation carries real information (e.g. "a design claim, not a certification" is fine). Never use it for rhythm or drama ("not a rebuttal -- it's a sequence"). When in doubt, state the positive claim directly.
 - **No "this, not that" filler pairs** and no false triads (three parallel items purely for cadence: "the good, the fast, and the cheap").
-- **Ban these words/phrases** unless technically required: delve, tapestry, testament (to), landscape (figurative), realm, leverage (as verb), robust, seamless(ly), elevate, unlock, at its core, the reality is, it's worth noting, in today's world, ever-evolving, fast-paced, game-changer, cutting-edge, paradigm, holistic, myriad, plethora, navigate (figurative), underscore, pivotal, crucial, dive into, treasure trove, rich tapestry/history, more than just, not merely, "isn't just about... it's about...".
+- **Ban these words/phrases outright**: delve, tapestry, testament (to), landscape (figurative), realm, seamless(ly), elevate, unlock, at its core, the reality is, it's worth noting, in today's world, ever-evolving, fast-paced, game-changer, cutting-edge, myriad, plethora, underscore, pivotal, crucial, dive into, treasure trove, rich tapestry/history, more than just, not merely, "isn't just about... it's about...".
+- **Barred unless it is the technical term the sentence needs**: leverage (as verb), robust, paradigm, holistic, navigate (figurative). Where the word carries a precise meaning in the domain (a robust estimator, a leverage ratio, a paradigm in the technical sense), keep it and name that sense.
 - **No em-dash drama.** Do not use the em dash to manufacture a dramatic pause or a punchy reveal. Prefer a period or a comma. Keep em dashes rare.
 - **No hype adjectives or empty intensifiers**: revolutionary, powerful, seamless, effortless, transformative, world-class, best-in-class (unless it is a literal, cited claim).
 - **No "Certainly! / Great question! / I hope this helps" filler**, no restating the prompt back, no summary sentence that adds nothing ("In summary, ...").
@@ -40,7 +41,7 @@ These are the *structural* fingerprints of machine text, separate from word choi
   - **Bullets only for list-like content.** Convert bullet-heavy explanation into prose.
   - **Use straight quotes and hyphens; no em dash** (already banned above - this restates it for headings and titles too). Avoid title-case headings; use sentence case.
 - **No invented named concepts.** Do not coin and quote a fake term of art for emphasis ("the supervision paradox," "workload creep," "the acceleration trap") unless it is a real, established term.
-- **Word additions to the ban list** (unless technically required): showcase, foster, garner, boast(s), spearhead, testament, aforementioned, encompass, facilitate, utilize (use "use"), delve into, embark, harness, resonate, stand out, top-notch, "in the realm of," "when it comes to," "a wide range of," "a testament to."
+- **Word additions to the ban list** (unless technically required): showcase, foster, garner, boast(s), spearhead, testament, aforementioned, encompass, facilitate, utilize (use "use"), delve into, embark, harness, resonate, stand out, top-notch, "in the realm of," "when it comes to," "a wide range of," "a testament to." None of these has a technical sense worth keeping.
 
 #### Banned catchphrases and clanker-isms (hard rule, never use in replies, docs, comments, or commits)
 
