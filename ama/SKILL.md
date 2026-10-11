@@ -1,217 +1,157 @@
 ---
 name: ama
 description: >
-  Before creating any asset — code, design, document, image, presentation, or any
-  other deliverable — ask the user as many questions as needed to eliminate all
-  ambiguity. Use when the user invokes "ama", asks you to "ask me everything first",
-  or when starting any creative or technical build where requirements could be
-  interpreted multiple ways. Never assume; always ask first.
+  Use when the user says "ama" or "ask me everything first", or before building
+  any asset whose requirements could be read more than one way — code, design,
+  document, image, presentation, or anything else. Interrogate the request until
+  the ambiguity is gone, restate it as a short spec, and wait for "go".
+  Never assume silently: ask, or state the assumption.
 ---
 
 # AMA — Ask Me Anything Before Building
 
 ## Purpose
 
-Before creating any asset, eliminate all ambiguity through structured questioning. A few minutes of questions now prevents hours of rework later. The goal is to fully understand what the user wants before a single line of code, word, or pixel is produced.
+Eliminate ambiguity before producing an asset. A few minutes of questions now
+prevents hours of rework later. The goal is to understand the request fully
+before a line of code, a word, or a pixel exists.
 
-## When to Use This Skill
+## When to Use
 
-Apply this skill when:
-- The user explicitly invokes "ama" or says "ask me everything first"
-- You're about to build something where requirements could be interpreted multiple ways
-- The request is open-ended (e.g., "build me a dashboard", "create a landing page", "make a tool that...")
-- Design, UX, or creative direction hasn't been specified
-- The target audience, use case, or success criteria is unclear
+- The user invokes "ama" or says "ask me everything first"
+- You're about to build something the request could be read more than one way
+- The request is open-ended ("build me a dashboard", "create a landing page")
+- Audience, design direction, or success criteria are unspecified
 
-## How to Run an AMA Session
+## Ask Only What Changes the Build
 
-### Step 1: Read the Request Thoroughly
+The core rule. For every unknown, ask yourself:
 
-Before asking anything, fully parse what the user said. Extract:
-- What type of asset is being created (UI, doc, script, image, presentation, etc.)
-- What's already clear vs. what's ambiguous
-- What categories of unknowns exist (purpose, audience, features, design, constraints, etc.)
+> Would a different answer change what I build, or how I build it?
 
-### Step 2: Ask Everything Using AskUserQuestion
+- **Yes** — ask it.
+- **No, or it's cheap to reverse** — take the sensible default, state it as an
+  assumption, and move on.
+- **Only if it's expensive or irreversible to undo** — stop and wait.
 
-Use the `AskUserQuestion` tool for **every question that has enumerable answers**. You can batch up to 4 questions per call. Work through all categories systematically.
+Two consequences matter more than the rule itself:
 
-**Always use `AskUserQuestion` for:**
-- Audience selection (internal / external / leadership / etc.)
-- Theme/tone (light / dark / minimal / rich / etc.)
-- Format/output type (React / HTML / doc / presentation / etc.)
-- Scope (MVP / full build / POC / etc.)
-- Style direction (reference examples as options)
-- Feature priority (must-have / nice-to-have / out of scope)
-- Any question where you can enumerate 2–4 reasonable choices
+- **Look it up before asking.** Workspace conventions, the repo, attached files,
+  and earlier conversation usually answer half the list. A cheap lookup beats a
+  question — asking what you could have read wastes the user's patience.
+- **Never ask what the user already told you.** Re-asking a settled point reads
+  as not listening.
 
-**Use plain text only for:**
-- Truly open-ended questions where options can't be enumerated (e.g., "describe the content that goes in")
-- Follow-up clarifications on a specific answer the user just gave
+## When Not to Ask
 
-### Step 3: Question Categories to Cover
+If the user says "just build it", "don't ask, just do it", or repeats a request
+you have already questioned, respect it: state your assumptions in one short
+list, then build. This skill exists to prevent rework, not to gate the work.
 
-Work through these categories, using `AskUserQuestion` for each wherever possible:
+## Budget
 
-**Purpose & Audience**
-- Who is the primary audience?
-- What's the primary goal?
+- First batch: at most 5 questions, the highest-leverage ones.
+- At most one follow-up round, and only for answers that opened a new fork.
+- Stop as soon as further answers would no longer change the build.
 
-**Output Format**
-- What format?
-- Scope level?
+## Asking the Question
 
-**Design & Aesthetic**
-- Theme?
-- Density?
-- Tone?
-- Style reference?
+Ask through your host's interactive question tool — the one that renders
+selectable options the user picks from. Use it whenever the answer is
+enumerable: it's faster to answer than prose, and it records the choice.
 
-**Features & Functionality**
-- Must-have features (use `multiSelect: true`)
-- Interactivity level
-- Data source
+**If your host has no such tool**, render the same question as a short numbered
+list in plain text and stop for the answer. Never bury options inside a
+paragraph, and never silently assume instead of asking.
 
-**Technical Constraints**
-- Stack preference if relevant
-- Specific libraries or dependencies
+Host tools, as examples only — use whatever yours provides:
 
-### Step 4: Follow Up on Vague Answers
+- Claude Code → `AskUserQuestion`
+- Hermes → `clarify`
 
-If the user selects "Other" or gives an unclear answer, ask one targeted follow-up using `AskUserQuestion` if options are enumerable, or plain text if it's open-ended.
+Map the shape, not the name:
 
-### Step 5: Confirm Before Building
+- Give 2–4 options per question; the user can always answer something else.
+- Put your recommended option first when the tool marks it.
+- No per-option description field? Fold the trade-off into the option text —
+  "Light — clean white background" beats a bare "Light".
+- Multi-select for anything where several answers apply (features,
+  constraints); single-select for choices that exclude each other.
+- Batch independent questions in one call; one topic per question.
 
-After all questions are answered, restate your understanding in 3-5 bullet points using plain text:
-- What you're building
-- Key features/requirements
-- Design direction
-- Any assumptions you're making for things left unanswered
+If a question comes back skipped, unanswered, or times out, don't stall: proceed
+on the option you recommended and label it as an assumption in the confirmation
+step.
 
-Ask: "Does this look right? Say go and I'll build it." Then wait for confirmation before starting.
+## What to Ask About
 
-## AskUserQuestion Usage Guide
+First parse the request: what's already specified, what's genuinely unknown, and
+which unknowns are material. Then work through these categories, skipping
+anything already answered, already looked up, or immaterial:
 
-**Key rules:**
-- Each question needs 2-4 options (the user always gets an implicit "Other" for free text)
-- Use `multiSelect: true` for features, constraints, or anything where multiple answers apply
-- Add `description` to options to surface trade-offs and implications
-- Batch related questions (up to 4) in a single `AskUserQuestion` call for efficiency
-- Use short `header` labels (max 12 chars) like "Audience", "Format", "Theme", "Features"
+- **Purpose & audience** — who it's for, what it's for
+- **Output format** — which artifact, and what scope (full build / MVP / proof of
+  concept)
+- **Design & tone** — theme, density, and a *named* style reference; "Linear",
+  "Stripe", "Notion" anchor taste far better than "modern and clean"
+- **Features** — must-have, nice-to-have, and explicitly out (multi-select)
+- **Constraints** — stack, integrations, data source, deadline, budget
+- **Definition of done** — how they'll judge that it worked
 
-**Example — single question:**
+## Confirm Before Building
 
-```
-AskUserQuestion({
-  questions: [{
-    question: "Who is the primary audience for this?",
-    header: "Audience",
-    multiSelect: false,
-    options: [
-      { label: "Just me", description: "Personal tool, no polish needed" },
-      { label: "My team", description: "Internal, functional" },
-      { label: "Leadership", description: "Needs to look sharp and presentable" },
-      { label: "External users", description: "Public-facing, high polish required" }
-    ]
-  }]
-})
-```
+Restate the understanding as a short spec — not a chat summary, and not a
+paraphrase of their words:
 
-**Example — batching related questions:**
+- **Building** — one or two lines
+- **In scope** — the must-haves
+- **Out of scope** — what you're explicitly not doing. Ask for this if the user
+  hasn't said it; exclusions are where rework comes from.
+- **Assumptions** — every default you took instead of asking
+- **Done when** — the acceptance criteria
+
+Then ask: "Does this look right? Say go and I'll build it." Wait for the answer.
+
+## Examples
+
+**Enumerated question** — Hermes `clarify` shape. The first choice is marked
+recommended; the user can still answer freely.
 
 ```
-AskUserQuestion({
-  questions: [
-    {
-      question: "What output format do you want?",
-      header: "Format",
-      multiSelect: false,
-      options: [
-        { label: "React component", description: ".jsx/.tsx file" },
-        { label: "Plain HTML/CSS/JS", description: "No framework needed" },
-        { label: "Markdown document", description: "Text-based deliverable" },
-        { label: "Presentation (PPTX)", description: "Slide deck format" }
-      ]
-    },
-    {
-      question: "What's the scope level?",
-      header: "Scope",
-      multiSelect: false,
-      options: [
-        { label: "Full polished build", description: "Production-ready quality" },
-        { label: "MVP", description: "Core features only, functional" },
-        { label: "Proof of concept", description: "Demonstrates the idea" },
-        { label: "Quick prototype", description: "Fast and rough, just to explore" }
-      ]
-    }
+clarify(questions=[{
+  "question": "Who is the primary audience?",
+  "choices": ["My team — internal, functional",
+              "Leadership — needs to look sharp",
+              "External users — high polish required"]
+}])
+```
+
+**Multi-select for features** — Claude `AskUserQuestion` shape.
+
+```
+AskUserQuestion({questions: [{
+  question: "Which features are must-haves?",
+  header: "Features",
+  multiSelect: true,
+  options: [
+    { label: "Search",            description: "Text search across items" },
+    { label: "Filter by version", description: "Dropdown or sidebar filter" },
+    { label: "Timeline view",     description: "Visual roadmap" }
   ]
-})
+}]})
 ```
 
-**Example — multi-select for features:**
-
-```
-AskUserQuestion({
-  questions: [{
-    question: "Which features are must-haves?",
-    header: "Features",
-    multiSelect: true,
-    options: [
-      { label: "Filter by version", description: "Dropdown or sidebar filter" },
-      { label: "Search", description: "Text search across items" },
-      { label: "Timeline view", description: "Visual roadmap/timeline" },
-      { label: "Detail on click", description: "Expand items for more info" }
-    ]
-  }]
-})
-```
-
-**Example — design questions batched:**
-
-```
-AskUserQuestion({
-  questions: [
-    {
-      question: "What theme do you prefer?",
-      header: "Theme",
-      multiSelect: false,
-      options: [
-        { label: "Light", description: "Clean white background" },
-        { label: "Dark", description: "Better for data-heavy views" },
-        { label: "No preference", description: "I'll pick what fits best" }
-      ]
-    },
-    {
-      question: "What information density?",
-      header: "Density",
-      multiSelect: false,
-      options: [
-        { label: "Minimal", description: "Airy, lots of whitespace" },
-        { label: "Balanced", description: "Good mix of space and content" },
-        { label: "Dense", description: "Data-rich, compact layout" }
-      ]
-    },
-    {
-      question: "What visual style reference is closest?",
-      header: "Style",
-      multiSelect: false,
-      options: [
-        { label: "Linear", description: "Clean, modern, developer-focused" },
-        { label: "Stripe", description: "Polished, professional, precise" },
-        { label: "Notion", description: "Content-first, minimal chrome" }
-      ]
-    }
-  ]
-})
-```
+**Design questions batched** — theme, density, and a named style reference in
+one call, 2–4 options each.
 
 ## Principles
 
-- **No assumptions.** If something could go two ways, ask. Assumptions are the enemy of good output.
-- **AskUserQuestion over plain text.** Whenever options can be enumerated, use the tool — it's faster and cleaner for the user than reading a list of questions.
-- **Be specific with options.** "What style?" is worse than offering "Linear / Stripe / Notion" as choices.
-- **Multi-select when appropriate.** Use `multiSelect: true` for features, constraints, or anything where multiple answers apply.
-- **Surface trade-offs in descriptions.** Use the `description` field on options to explain implications.
-- **Respect what's already clear.** Don't ask about things the user already specified. Only ask about genuine unknowns.
-- **Batch related questions.** Group up to 4 related questions in a single `AskUserQuestion` call for a smoother experience.
-- **One topic per question.** Each question within a batch should be a single focused question — don't bundle multiple concerns into one.
+- **Ask, or state the assumption.** Silence is the only wrong answer. A stated
+  assumption the user can correct beats a question they didn't need.
+- **Enumerated options over open prose**, whenever the answer set is finite.
+- **Specific beats abstract.** Name real references; "clean and modern" means
+  nothing.
+- **Multi-select when several answers apply**, single-select when they exclude.
+- **Surface trade-offs** in the option text, so the cheaper choice is visible.
+- **One topic per question.**
+- **Respect the answers you already have** — including "just build it".
